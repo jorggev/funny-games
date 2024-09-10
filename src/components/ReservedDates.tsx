@@ -1,30 +1,64 @@
 import React, { useState, useEffect } from 'react'
-import { format, addDays, isSameDay } from 'date-fns'
+import { format, addDays, isSameDay, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Calendar, Info } from 'lucide-react'
+import axios from 'axios'
+import ErrorMessage from './ErrorMessage'
 
-// Simulated API call to get reserved dates
-const getReservedDates = async () => {
-  // In a real application, this would be an API call
-  return [
-    new Date(2023, 5, 15),
-    new Date(2023, 5, 18),
-    new Date(2023, 5, 20),
-  ]
-}
+const API_URL = 'http://localhost:3000/api/reserved-dates';
 
-const ReservedDates: React.FC = () => {
+/* const ReservedDates: React.FC = () => {
   const [reservedDates, setReservedDates] = useState<Date[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchReservedDates = async () => {
-      const dates = await getReservedDates()
-      setReservedDates(dates)
+      try {
+        setIsLoading(true)
+        const response = await axios.get(API_URL)
+        const dates = response.data.map((dateString: string) => parseISO(dateString))
+        setReservedDates(dates)
+        setError(null)
+      } catch (err) {
+        setError('Error al cargar las fechas reservadas. Por favor, intenta de nuevo más tarde.')
+        console.error('Error fetching reserved dates:', err)
+      } finally {
+        setIsLoading(false)
+      }
     }
+
     fetchReservedDates()
-  }, [])
+  }, []) -------------------> V1 */
+
+/* V2 */
+  const ReservedDates: React.FC = () => {
+    const [reservedDates, setReservedDates] = useState<Date[]>([])
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+  
+    useEffect(() => {
+      const fetchReservedDates = async () => {
+        try {
+          setIsLoading(true)
+          const response = await axios.get(API_URL)
+          const dates = response.data.map((dateString: string) => parseISO(dateString))
+          setReservedDates(dates)
+          setError(null)
+        } catch (err) {
+          setError('Error al cargar las fechas reservadas. Por favor, intenta de nuevo más tarde.')
+          console.error('Error fetching reserved dates:', err)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+  
+      fetchReservedDates()
+    }, [])
 
   const today = new Date()
   /* const maxDate = addDays(today, 30) */
@@ -37,6 +71,14 @@ const ReservedDates: React.FC = () => {
     if (!isDateReserved(date)) {
       setSelectedDate(date)
     }
+  }
+
+  if (isLoading) {
+    return <div>Cargando fechas reservadas...</div>
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />
   }
 
   return (

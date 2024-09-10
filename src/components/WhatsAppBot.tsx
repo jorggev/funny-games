@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { X, Send, ArrowLeft } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
-import ChatDateSelector from './ChatDateSelector'
+import axios from 'axios'
+import DateSelector from './DateSelector'
+import ErrorMessage from './ErrorMessage'
 
 type Option = {
   text: string
@@ -14,6 +16,8 @@ type Step = {
   question: string
   options: Option[]
 }
+
+const API_URL = 'http://localhost:3000/api/reserved-dates'
 
 const steps: { [key: string]: Step } = {
   start: {
@@ -51,7 +55,7 @@ const steps: { [key: string]: Step } = {
     ]
   },
   dates: {
-    question: "Selecciona una fecha disponible:",
+    question: "Fechas disponibles",
     options: []
   },
   other: {
@@ -67,18 +71,38 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
   const [selections, setSelections] = useState<{ [key: string]: string }>({})
   const [history, setHistory] = useState<string[]>(['start'])
   const [totalPrice, setTotalPrice] = useState(0)
+  const [availableDates, setAvailableDates] = useState<Date[]>([])
+  const [reservedDates, setReservedDates] = useState<Date[]>([])
+  const [dateError, setDateError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!isOpen) {
       resetBot()
+    } else {
+      fetchDates()
+      const interval = setInterval(fetchDates, 60000) // Update every minute
+      return () => clearInterval(interval)
     }
   }, [isOpen])
+
+  const fetchDates = async () => {
+    try {
+      const response = await axios.get(`${API_URL}`)
+      setAvailableDates(response.data.availableDates.map((d: string) => new Date(d)))
+      setReservedDates(response.data.reservedDates.map((d: string) => new Date(d)))
+      setDateError(null)
+    } catch (err) {
+      setDateError('Error al cargar las fechas. Por favor, intenta de nuevo más tarde.')
+      console.error('Error fetching dates:', err)
+    }
+  }
 
   const resetBot = () => {
     setCurrentStep('start')
     setSelections({})
     setHistory(['start'])
     setTotalPrice(0)
+    setDateError(null)
   }
 
   const handleSelection = (option: Option) => {
@@ -155,7 +179,14 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
       )}
       <div className="space-y-2">
         {currentStep === 'dates' ? (
-          <ChatDateSelector onDateSelect={handleDateSelection} />
+          <>
+            <DateSelector
+              availableDates={availableDates}
+              reservedDates={reservedDates}
+              onDateSelect={handleDateSelection}
+            />
+            {dateError && <ErrorMessage message={dateError} />}
+          </>
         ) : (
           steps[currentStep].options.map((option, index) => (
             <button
