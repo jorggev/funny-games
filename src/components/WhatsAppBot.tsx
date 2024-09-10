@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { X, Send, ArrowLeft } from 'lucide-react'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
+import ChatDateSelector from './ChatDateSelector'
 
 type Option = {
   text: string
@@ -49,12 +52,7 @@ const steps: { [key: string]: Step } = {
   },
   dates: {
     question: "Selecciona una fecha disponible:",
-    options: [
-      { text: "15 de julio" },
-      { text: "22 de julio" },
-      { text: "29 de julio" },
-      { text: "Otra fecha" }
-    ]
+    options: []
   },
   other: {
     question: "¿Sobre qué tema te gustaría consultar?",
@@ -104,6 +102,11 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
     }
   }
 
+  const handleDateSelection = (date: Date) => {
+    const formattedDate = format(date, 'EEEE, d MMMM yyyy', { locale: es })
+    handleSelection({ text: formattedDate })
+  }
+
   const handleBack = () => {
     if (history.length > 1) {
       const newHistory = history.slice(0, -1)
@@ -151,20 +154,24 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
         </button>
       )}
       <div className="space-y-2">
-        {steps[currentStep].options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => handleSelection(option)}
-            className={`w-full text-left p-2 rounded flex justify-between items-center ${
-              selections[currentStep] === option.text
-                ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
-                : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
-            }`}
-          >
-            <span>{option.text}</span>
-            {option.price && <span className="font-bold">${option.price}</span>}
-          </button>
-        ))}
+        {currentStep === 'dates' ? (
+          <ChatDateSelector onDateSelect={handleDateSelection} />
+        ) : (
+          steps[currentStep].options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleSelection(option)}
+              className={`w-full text-left p-2 rounded flex justify-between items-center ${
+                selections[currentStep] === option.text
+                  ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
+                  : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
+              }`}
+            >
+              <span>{option.text}</span>
+              {option.price && <span className="font-bold">${option.price}</span>}
+            </button>
+          ))
+        )}
       </div>
       {totalPrice > 0 && (
         <div className="mt-4 text-right">
