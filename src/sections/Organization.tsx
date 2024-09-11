@@ -1,11 +1,11 @@
 import SectionTitle from '../components/SectionTitle';
-import LoyaltyProgram from './LoyaltyProgram';
+import Reservations from './Reservations';
 
 export default function Organization() {
   return (
-    <div className="flex flex-col md:flex-row gap-8 my-8">
-      <section id="organizacion" className="flex-1">
-        <SectionTitle title="Cómo nos Organizamos" />
+<div className="grid grid-cols-1 md:grid-cols-2 my-8">
+        <section id="organizacion" className="bg-white">
+        <SectionTitle title="Cómo nos Organizamos"/>
         <ol className="list-decimal list-inside">
           <li className="mb-2">Elige tu plan o contáctanos para un presupuesto personalizado.</li>
           <li className="mb-2">Reserva tu fecha con un anticipo del 50%.</li>
@@ -15,7 +15,7 @@ export default function Organization() {
           <li>Nos encargamos del desmontaje y limpieza al finalizar.</li>
         </ol>
       </section>
-      <LoyaltyProgram />
+      <Reservations />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import ReservedDates from '../components/ReservedDates'
 
 const Reservations = () => {
   return (
-    <section id="reservas" className="my-8">
+    <section id="reservas">
       <ReservedDates />
     </section>
   )
