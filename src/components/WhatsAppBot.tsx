@@ -167,8 +167,12 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
 
   return (
     <div className="fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-xl p-4 z-40">
-      <button onClick={onClose} className="absolute top-2 right-2">
-        <X className="h-6 w-6 text-gray-500" />
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-2 p-1 bg-transparent "
+        style={{ width: '24px', height: '24px' }}  // Pequeño botón circular
+      >
+        <X className="h-4 w-4 text-gray-500" />
       </button>
       <h3 className="text-lg font-bold mb-4">{steps[currentStep].question}</h3>
       {history.length > 1 && (
@@ -192,11 +196,10 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
             <button
               key={index}
               onClick={() => handleSelection(option)}
-              className={`w-full text-left p-2 rounded flex justify-between items-center ${
-                selections[currentStep] === option.text
+              className={`w-full text-left p-2 rounded flex justify-between items-center ${selections[currentStep] === option.text
                   ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
                   : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
-              }`}
+                }`}
             >
               <span>{option.text}</span>
               {option.price && <span className="font-bold">${option.price}</span>}
