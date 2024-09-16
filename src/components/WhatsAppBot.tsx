@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { X, Send, ArrowLeft } from 'lucide-react'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
+import DateSelector from './ChatDateSelector'
 
 type Option = {
   text: string
@@ -16,92 +19,52 @@ const steps: { [key: string]: Step } = {
   start: {
     question: "¿En qué estás interesado?",
     options: [
-      { text: "Planes completos", next: "planes" },
-      { text: "Alquiler por hora", next: "hourly" },
+      { text: "Planes", next: "planes" },
       { text: "Otra consulta", next: "other" }
     ]
   },
   planes: {
     question: "¿Qué plan te interesa?",
     options: [
-      { text: "Plan Básico", price: 5000, next: "dates" },
-      { text: "Plan Estándar", price: 8000, next: "dates" },
-      { text: "Plan Premium", price: 12000, next: "dates" }
-    ]
-  },
-  hourly: {
-    question: "¿Qué juego te interesa alquilar por hora?",
-    options: [
-      { text: "Castillo inflable", price: 1000, next: "hours" },
-      { text: "Metegol", price: 500, next: "hours" },
-      { text: "Mesa de tejo", price: 700, next: "hours" },
-      { text: "Otros juegos", price: 600, next: "hours" }
-    ]
-  },
-  hours: {
-    question: "¿Cuántas horas deseas alquilar?",
-    options: [
-      { text: "1 hora", next: "dates" },
-      { text: "2 horas", next: "dates" },
-      { text: "3 horas", next: "dates" },
-      { text: "4 horas o más", next: "dates" }
+      { text: "Plan 3x4", price: 24000, next: "dates" },
+      { text: "Plan 4x6", price: 28000, next: "dates" },
+      { text: "Solo 3x4", price: 20000, next: "dates" },
+      { text: "Solo 4x6", price: 25000, next: "dates" }
     ]
   },
   dates: {
-    question: "Selecciona una fecha disponible:",
-    options: [
-      { text: "15 de julio" },
-      { text: "22 de julio" },
-      { text: "29 de julio" },
-      { text: "Otra fecha" }
-    ]
+    question: "Selecciona una fecha",
+    options: []
   },
   other: {
     question: "¿Sobre qué tema te gustaría consultar?",
-    options: [
-      { text: "Otro tema" }
-    ]
+    options: [{ text: "Otro tema" }]
   }
 }
 
-const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClose, isOpen }) => {
+const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState('start')
   const [selections, setSelections] = useState<{ [key: string]: string }>({})
   const [history, setHistory] = useState<string[]>(['start'])
   const [totalPrice, setTotalPrice] = useState(0)
-
-  useEffect(() => {
-    if (!isOpen) {
-      resetBot()
-    }
-  }, [isOpen])
-
-  const resetBot = () => {
-    setCurrentStep('start')
-    setSelections({})
-    setHistory(['start'])
-    setTotalPrice(0)
-  }
 
   const handleSelection = (option: Option) => {
     const newSelections = { ...selections, [currentStep]: option.text }
     setSelections(newSelections)
 
     if (option.price) {
-      if (currentStep === 'hourly') {
-        setTotalPrice(option.price) // Store the hourly rate
-      } else {
-        setTotalPrice(option.price)
-      }
+      setTotalPrice(option.price)
     }
-    if (currentStep === 'hours') {
-      const hours = parseInt(option.text)
-      setTotalPrice(totalPrice * hours)
-    }
+
     if (option.next) {
       setCurrentStep(option.next)
       setHistory([...history, option.next])
     }
+  }
+
+  const handleDateSelection = (date: Date) => {
+    const formattedDate = format(date, 'EEEE, d MMMM yyyy', { locale: es })
+    handleSelection({ text: formattedDate })
   }
 
   const handleBack = () => {
@@ -113,10 +76,6 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
       const newSelections = { ...selections }
       delete newSelections[currentStep]
       setSelections(newSelections)
-      // Reset price when going back
-      if (currentStep === 'dates' || currentStep === 'hours') {
-        setTotalPrice(0)
-      }
     }
   }
 
@@ -139,9 +98,19 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
   const isQueryComplete = currentStep === 'dates' || currentStep === 'other'
 
   return (
-    <div className="fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-xl p-4 z-40">
-      <button onClick={onClose} className="absolute top-2 right-2">
-        <X className="h-6 w-6 text-gray-500" />
+    <div
+      className="fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-xl p-4 z-40"
+      style={{
+        border: '2px solid #6b7280',  // Borde azul claro
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',  // Sombra suave
+      }}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-2 p-1 bg-transparent"
+        style={{ width: '24px', height: '24px' }}
+      >
+        <X className="h-4 w-4 text-gray-500" />
       </button>
       <h3 className="text-lg font-bold mb-4">{steps[currentStep].question}</h3>
       {history.length > 1 && (
@@ -151,20 +120,25 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
         </button>
       )}
       <div className="space-y-2">
-        {steps[currentStep].options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => handleSelection(option)}
-            className={`w-full text-left p-2 rounded flex justify-between items-center ${
-              selections[currentStep] === option.text
+        {currentStep === 'dates' ? (
+          <>
+            <DateSelector onDateSelect={handleDateSelection} />
+          </>
+        ) : (
+          steps[currentStep].options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleSelection(option)}
+              className={`w-full text-left p-2 rounded flex justify-between items-center ${selections[currentStep] === option.text
                 ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
                 : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
-            }`}
-          >
-            <span>{option.text}</span>
-            {option.price && <span className="font-bold">${option.price}</span>}
-          </button>
-        ))}
+              }`}
+            >
+              <span>{option.text}</span>
+              {option.price && <span className="font-bold">${option.price}</span>}
+            </button>
+          ))
+        )}
       </div>
       {totalPrice > 0 && (
         <div className="mt-4 text-right">

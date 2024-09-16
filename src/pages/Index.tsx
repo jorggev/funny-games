@@ -6,8 +6,8 @@ import AboutUs from '../sections/AboutUs'
 import Plans from '../sections/Plans'
 import Organization from '../sections/Organization'
 /* import ImportantInfo from '../sections/ImportantInfo' */
-import Reservations from '../sections/Reservations'
-import PaymentMethods from '../components/PaymentMethods'
+/* import Reservations from '../sections/Reservations' */
+/* import PaymentMethods from '../components/PaymentMethods' */
 
 const LandingPage = () => {
   return (
@@ -19,8 +19,8 @@ const LandingPage = () => {
         <Plans />
         <Organization />
         {/* <ImportantInfo /> */}
-        <Reservations />
-        <PaymentMethods/>
+        {/* <Reservations /> */}
+        {/* <PaymentMethods/> */}
       </main>
       <Footer />
       <WhatsAppButton />
