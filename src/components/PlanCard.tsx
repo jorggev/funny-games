@@ -7,8 +7,8 @@ interface PlanCardProps {
 
 export default function PlanCard({ title, items, price }: PlanCardProps) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h3 className="text-xl font-bold mb-2 text-pastel-blue-600">{title}</h3>
+    <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-full border">
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
       <ul className="list-disc list-inside mb-4">
         {items.map((item, index) => (
           <li key={index}>{item}</li>

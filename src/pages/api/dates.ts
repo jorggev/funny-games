@@ -17,7 +17,7 @@ async function connectToDatabase(): Promise<Db> {
   }
 
   await client.connect()
-  const db = client.db('MONGODB_URI')
+  const db = client.db('funny_games')
   cachedDb = db
   return db
 }

@@ -172,7 +172,7 @@ const ReservedDates: React.FC = () => {
   return (
     <section id="disponibilidad" className="flex-1">
       <SectionTitle title="Fechas disponibles" />
-      <div className="bg-white p-4 rounded-lg shadow-md">
+      <div className="bg-white p-4 rounded-lg shadow-md border">
         <div className="flex-1 justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-pastel-blue-800 flex items-center">
             <CalendarIcon className="w-5 h-5 mr-2" />
