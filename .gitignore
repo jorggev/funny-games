@@ -27,5 +27,5 @@ dist-ssr
 .env.local
 .config.ts
 .firebase
-src/firebase/config.ts
+config.ts
 addReservedDate.js
