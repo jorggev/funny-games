@@ -54,6 +54,8 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
 
     if (option.price) {
       setTotalPrice(option.price)
+    } else if (currentStep === 'start' && option.text === "Otra consulta") {
+      setTotalPrice(0)
     }
 
     if (option.next) {
@@ -76,6 +78,11 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
       const newSelections = { ...selections }
       delete newSelections[currentStep]
       setSelections(newSelections)
+
+      // Reset price if going back to start
+      if (previousStep === 'start') {
+        setTotalPrice(0)
+      }
     }
   }
 
@@ -101,8 +108,8 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
     <div
       className="fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-xl p-4 z-40"
       style={{
-        border: '2px solid #6b7280',  // Borde azul claro
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',  // Sombra suave
+        border: '2px solid #6b7280',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
       }}
     >
       <button
@@ -129,9 +136,10 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
             <button
               key={index}
               onClick={() => handleSelection(option)}
-              className={`w-full text-left p-2 rounded flex justify-between items-center ${selections[currentStep] === option.text
-                ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
-                : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
+              className={`w-full text-left p-2 rounded flex justify-between items-center ${
+                selections[currentStep] === option.text
+                  ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
+                  : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
               }`}
             >
               <span>{option.text}</span>
