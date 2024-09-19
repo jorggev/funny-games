@@ -4,8 +4,6 @@ import { getFirestore } from 'firebase/firestore';
 
 // Configuración de Firebase (usa los datos de tu segundo bloque de código)
 const firebaseConfig = {
-
-
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
