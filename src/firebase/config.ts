@@ -1,6 +1,8 @@
+// Importar Firebase y Firestore
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
+// Configuración de Firebase (usa los datos de tu segundo bloque de código)
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -10,11 +12,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Inicializar Firebase solo si las configuraciones están disponibles
-const app = firebaseConfig.apiKey ? initializeApp(firebaseConfig) : null;
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
 
 // Inicializar Firestore
-export const db = app ? getFirestore(app) : null;
+export const db = getFirestore(app);
 
 // Exportar app para usar Firebase en otras partes del proyecto (si lo necesitas)
 export default app;

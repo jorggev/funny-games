@@ -1,80 +1,49 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react'
-import { collection, query, where, getDocs } from 'firebase/firestore'
+import { collection, query, where } from 'firebase/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from '../firebase/config'
 import SectionTitle from './SectionTitle'
 
 const ReservedDates: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date())
-  const [reservedDates, setReservedDates] = useState<Date[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchReservedDates = async () => {
-      // Verificar si `db` está configurado correctamente
-      if (!db) {
-        setError("Error de configuración de Firebase")
-        setIsLoading(false)
-        return
-      }
+  const startOfCurrentMonth = startOfMonth(currentMonth)
+  const endOfCurrentMonth = endOfMonth(currentMonth)
 
-      setIsLoading(true) // Iniciar carga
-      const startDate = startOfMonth(currentMonth)
-      const endDate = endOfMonth(currentMonth)
-
-      // Crear la consulta a Firebase
-      const q = query(
-        collection(db, 'reservedDates'),
-        where('date', '>=', startDate),
-        where('date', '<=', endDate)
-      )
-
-      try {
-        // Obtener los datos de Firebase
-        const querySnapshot = await getDocs(q)
-        const dates = querySnapshot.docs.map(doc => {
-          const data = doc.data()
-          return data.date.toDate() // Asegurar que la fecha sea de tipo Date
-        })
-        setReservedDates(dates) // Establecer las fechas reservadas
-        setError(null) // Reiniciar errores
-      } catch (error) {
-        console.error("Error fetching reserved dates:", error)
-        setError("Error al cargar las fechas reservadas")
-      } finally {
-        setIsLoading(false) // Finalizar carga
-      }
-    }
-
-    fetchReservedDates() // Llamar a la función cuando cambie el mes
-  }, [currentMonth])
+  const [reservedDates, loading, error] = useCollection(
+    query(
+      collection(db, 'reservedDates'),
+      where('date', '>=', startOfCurrentMonth),
+      where('date', '<=', endOfCurrentMonth)
+    )
+  )
 
   const isDateReserved = (date: Date) => 
-    reservedDates.some(reservedDate => isSameDay(reservedDate, date))
+    reservedDates?.docs.some(doc => {
+      const reservedDate = doc.data().date.toDate()
+      return isSameDay(reservedDate, date)
+    }) || false
 
   const changeMonth = (increment: number) => {
     setCurrentMonth(prevMonth => addMonths(prevMonth, increment))
   }
 
   const daysInMonth = eachDayOfInterval({
-    start: startOfMonth(currentMonth),
-    end: endOfMonth(currentMonth)
+    start: startOfCurrentMonth,
+    end: endOfCurrentMonth
   })
 
-  // Renderizar la carga
-  if (isLoading) {
+  if (loading) {
     return <div>Cargando fechas reservadas...</div>
   }
 
-  // Renderizar error si ocurrió
   if (error) {
-    return <div>Error: {error}</div>
+    return <div>Error al cargar las fechas: {error.message}</div>
   }
 
-  // Renderizar el calendario
   return (
     <section id="disponibilidad" className="flex-1">
       <SectionTitle title="Fechas disponibles" />
