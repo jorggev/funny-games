@@ -81,7 +81,7 @@ const ReservedDates: React.FC = () => {
                 !isSameMonth(date, currentMonth)
                   ? 'text-gray-300'
                   : isDateReserved(date)
-                  ? 'bg-red-100 text-red-600'
+                  ? 'bg-red-100 text-orange-600'
                   : 'bg-pastel-blue-100 text-pastel-blue-600'
               }`}
             >
