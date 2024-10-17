@@ -74,7 +74,7 @@ const ReservedDates: React.FC = () => {
             <div key={day} className="text-xs font-medium text-pastel-blue-500 font-bold">{day}</div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-1 justify-between items-center">
           {daysInMonth.map((date, index) => (
             <div
               key={index}
