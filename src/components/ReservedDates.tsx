@@ -21,7 +21,7 @@ const ReservedDates: React.FC = () => {
     )
   )
 
-  const isDateReserved = (date: Date) => 
+  const isDateReserved = (date: Date) =>
     reservedDates?.docs.some(doc => {
       const reservedDate = doc.data().date.toDate()
       return isSameDay(reservedDate, date)
@@ -78,13 +78,13 @@ const ReservedDates: React.FC = () => {
           {daysInMonth.map((date, index) => (
             <div
               key={index}
-              className={`w-10 h-10 flex text-sm rounded-full ${ // Cambiar el ancho y alto para mejor alineación
+              className={`w-10 h-10 flex items-center justify-center text-sm rounded-full ${ // Cambiar el ancho y alto para mejor alineación
                 !isSameMonth(date, currentMonth)
                   ? 'text-gray-300'
                   : isDateReserved(date)
-                  ? 'bg-orange-300 text-orange-600'
-                  : 'bg-pastel-blue-100 text-pastel-blue-600'
-              }`}
+                    ? 'bg-orange-300 text-orange-600'
+                    : 'bg-pastel-blue-100 text-pastel-blue-600'
+                }`}
             >
               {format(date, 'd')}
             </div>
