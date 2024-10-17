@@ -47,13 +47,13 @@ const ReservedDates: React.FC = () => {
   return (
     <section id="disponibilidad" className="flex-1">
       <SectionTitle title="FECHAS DISPONIBLES" />
-      <p className="text-md mb-8">
+      <p className="text-md">
         Aquí podrás ver nuestras fechas disponibles para que puedas realizar tu reserva con total anticipación.
       </p>
-      <div className="bg-[#fff] p-4 rounded-lg shadow-lg">
-        <div className="flex justify-between items-center mb-4">
+      <div className="bg-[#fff] p-10 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-semibold text-pastel-blue-800 flex items-center">
-            <CalendarIcon className="w-5 h-5 mr-2" />
+            <CalendarIcon className="w-5 h-5 mr-7" />
             Calendario
           </h2>
           <div className="flex space-x-2">
@@ -65,23 +65,24 @@ const ReservedDates: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="text-center mb-2 text-sm font-medium text-pastel-blue-700">
-          {format(currentMonth, 'MMMM yyyy', { locale: es })}
+        <div className="text-center mb-6 text-sm font-medium text-pastel-blue-700">
+          {/* Cambiar a 'MMMM' para la primera letra mayúscula */}
+          {format(currentMonth, 'MMMM yyyy', { locale: es }).replace(/^\w/, c => c.toUpperCase())}
         </div>
-        <div className="grid grid-cols-7 gap-1 mb-2">
+        <div className="grid grid-cols-7 gap-1 mb-5">
           {['D', 'L', 'M', 'M', 'J', 'V', 'S'].map(day => (
-            <div key={day} className="text-xs font-medium text-pastel-blue-500">{day}</div>
+            <div key={day} className="text-xs font-medium text-pastel-blue-500 font-bold">{day}</div>
           ))}
         </div>
         <div className="grid grid-cols-7 gap-1">
           {daysInMonth.map((date, index) => (
             <div
               key={index}
-              className={`w-8 h-8 flex items-center justify-center text-sm rounded-full ${
+              className={`w-10 h-10 flex text-sm rounded-full ${ // Cambiar el ancho y alto para mejor alineación
                 !isSameMonth(date, currentMonth)
                   ? 'text-gray-300'
                   : isDateReserved(date)
-                  ? 'bg-orange-100 text-orange-600'
+                  ? 'bg-orange-300 text-orange-600'
                   : 'bg-pastel-blue-100 text-pastel-blue-600'
               }`}
             >
@@ -89,7 +90,7 @@ const ReservedDates: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="mt-4 text-xs text-gray-500 flex items-center justify-center">
+        <div className=" text-xs text-gray-500 flex items-center justify-center">
           <div className="w-3 h-3 bg-orange-500 text-white mr-1 rounded-full"></div>
           <span className="mr-3">Reservado</span>
         </div>

@@ -4,7 +4,7 @@ import { CreditCard, Banknote, Smartphone, Bitcoin } from 'lucide-react'
 
 const PaymentMethods: React.FC = () => {
   return (
-    <section id="medios-de-pago" className="mt-6 p-4">
+    <section id="medios-de-pago" className="mt-10">
       <SectionTitle title="MEDIOS DE PAGO"/>
       <div>
         <div>
