@@ -6,7 +6,7 @@ import { CircleAlert } from 'lucide-react'
 const Plans = () => {
     return (
         <section id="planes" className="my-8">
-            <SectionTitle title="Nuestros planes" />
+            <SectionTitle title="NUESTROS PLANES" />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-1">
                 <PlanCard
                     title="Plan 3x4"
@@ -30,10 +30,15 @@ const Plans = () => {
                 />
             </div>
             {/* <PriceCalculator /> */}
-            <div className="mt-2 mb-12 flex items-center">
-                <CircleAlert className="w-6 h-6 mr-2 text-pastel-blue-600 " />
-                <p>En el caso de que desees un plan más personalizado, por favor comunicate con nosotros.</p>
+            <div className="mt-2 mb-12 flex items-center justify-center">
+                <p className="mt-4 text-gray-500 text-center flex items-center">
+                    <CircleAlert className="w-6 h-6 mr-2" />
+                    Precios sujetos a modificaciones. En el caso de que desees un plan más personalizado, por favor comunícate con nosotros.
+                </p>
             </div>
+
+            {/* Nota de precios sujetos a modificaciones */}
+
         </section>
     )
 }

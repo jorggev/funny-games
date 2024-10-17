@@ -46,8 +46,11 @@ const ReservedDates: React.FC = () => {
 
   return (
     <section id="disponibilidad" className="flex-1">
-      <SectionTitle title="Fechas disponibles" />
-      <div className="bg-white p-4 rounded-lg shadow-md border">
+      <SectionTitle title="FECHAS DISPONIBLES" />
+      <p className="text-md mb-8">
+        Aquí podrás ver nuestras fechas disponibles para que puedas realizar tu reserva con total anticipación.
+      </p>
+      <div className="bg-[#fff] p-4 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-pastel-blue-800 flex items-center">
             <CalendarIcon className="w-5 h-5 mr-2" />
@@ -87,10 +90,8 @@ const ReservedDates: React.FC = () => {
           ))}
         </div>
         <div className="mt-4 text-xs text-gray-500 flex items-center justify-center">
-          <div className="w-3 h-3 bg-red-100 mr-1 rounded-full"></div>
+          <div className="w-3 h-3 bg-orange-500 text-white mr-1 rounded-full"></div>
           <span className="mr-3">Reservado</span>
-          <div className="w-3 h-3 bg-pastel-blue-100 ml-3 mr-1 rounded-full"></div>
-          <span>Disponible</span>
         </div>
       </div>
     </section>

@@ -33,10 +33,15 @@ export default function Hero() {
       }
     };
   }, []);
+
+
+  
   return (
-    <section id="inicio" className="my-8">
-      <SectionTitle title="BIENVENIDOS A FUNNY GAMES" />
-      <p className="mb-4">Ofrecemos una amplia variedad de juegos inflables y de entretenimiento para hacer de tu evento una experiencia inolvidable.</p>
+    <section id="inicio" className="my-8 text-center">
+      <SectionTitle title={<span className="text-5xl">BIENVENIDOS A FUNNY GAMES</span>} />
+      <p className="text-xl mb-8">
+        Ofrecemos una amplia variedad de juegos inflables y de entretenimiento para hacer de tu evento una experiencia inolvidable.
+      </p>
       <>
         <div ref={scrollRef} className="overflow-x-auto flex snap-x snap-mandatory md:grid md:grid-cols-4 gap-4">
           <div className="flex-shrink-0 w-full snap-start">
@@ -58,15 +63,15 @@ export default function Hero() {
           {[...Array(totalImages)].map((_, index) => (
             <div
               key={index}
-              className={`w-3 h-3 rounded-full border-2 ${currentImage === index ? "bg-[#059669] border-[#059669]" : "border-[#059669]"
+              className={`w-3 h-3 rounded-full border-2 ${currentImage === index ? "bg-orange-600 border-2 border-orange-600" : "border-orange-600"
                 }`}
             ></div>
           ))}
         </div>
       </>
-      <div className="mt-2 flex items-center">
-        <CircleAlert className="w-6 h-6 mr-2 text-pastel-blue-600 " />
-        <p>Por el momento, las imagenes son solo ilustrativas.</p>
+      <div className="text-sm text-gray-500 mt-2 flex items-center">
+        <CircleAlert className="w-6 h-6 mr-2 " />
+        <p className='text-gray-500'>Por el momento, las imagenes son solo ilustrativas.</p>
       </div>
     </section>
   );

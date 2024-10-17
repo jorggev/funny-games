@@ -1,10 +1,11 @@
 import React from 'react'
+import SectionTitle from '../components/SectionTitle';
 import { CreditCard, Banknote, Smartphone, Bitcoin } from 'lucide-react'
 
 const PaymentMethods: React.FC = () => {
   return (
-    <section id="medios-de-pago" className="bg-white rounded-lg border mt-6 mr-5 p-4">
-      <h2 className="text-2xl font-bold mb-4 text-pastel-blue-800">Medios de pago</h2>
+    <section id="medios-de-pago" className="mt-6 p-4">
+      <SectionTitle title="MEDIOS DE PAGO"/>
       <div>
         <div>
           <ul className="space-y-2">

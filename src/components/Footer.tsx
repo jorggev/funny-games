@@ -13,7 +13,7 @@ export default function Footer() {
               href="https://www.instagram.com/funny.gameschaco"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center text-pastel-blue-800 hover:text-pastel-blue-600"
+              className="flex items-center text-pastel-blue-800 hover:text-orange-600"
             >
               <FaInstagram className="w-5 h-5 mr-2" />
               <span>Seguinos en Instagram</span>
@@ -21,7 +21,7 @@ export default function Footer() {
             <a
               id="terminos-y-condiciones"
               href="/"
-              className="text-pastel-blue-800 hover:text-pastel-blue-600"
+              className="text-pastel-blue-800 hover:text-orange-600"
             >
               Términos y Condiciones
             </a>

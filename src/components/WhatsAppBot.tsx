@@ -106,7 +106,7 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
 
   return (
     <div
-      className="fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-xl p-4 z-40"
+      className="fixed bottom-20 right-4 w-80 bg-[#fff] rounded-lg shadow-xl p-4 z-40"
       style={{
         border: '2px solid #6b7280',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
@@ -122,11 +122,11 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
       <h3 className="text-lg font-bold mb-4">{steps[currentStep].question}</h3>
       {history.length > 1 && (
         <button onClick={handleBack} className="mb-2 flex items-center text-pastel-blue-600">
-          <ArrowLeft className="h-4 w-4 mr-1" />
+          <ArrowLeft className="h-4 w-4 mr-1 border-1" />
           Volver
         </button>
       )}
-      <div className="space-y-2">
+      <div className="space-y-2 ">
         {currentStep === 'dates' ? (
           <>
             <DateSelector onDateSelect={handleDateSelection} />
@@ -136,14 +136,14 @@ const WhatsAppBot: React.FC<{ onClose: () => void, isOpen: boolean }> = ({ onClo
             <button
               key={index}
               onClick={() => handleSelection(option)}
-              className={`w-full text-left p-2 rounded flex justify-between items-center ${
+              className={`w-full text-left p-2 rounded flex justify-between items-center  ${
                 selections[currentStep] === option.text
-                  ? 'bg-pastel-blue-300 hover:bg-pastel-blue-400'
-                  : 'bg-pastel-blue-100 hover:bg-pastel-blue-200'
+                  ? 'bg-pastel-blue-300 hover:bg-orange-200'
+                  : 'bg-pastel-blue-100 hover:bg-orange-200'
               }`}
             >
               <span>{option.text}</span>
-              {option.price && <span className="font-bold">${option.price}</span>}
+              {option.price && <span className="font-bold text-orange-500">${option.price}</span>}
             </button>
           ))
         )}
