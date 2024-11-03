@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+/* import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient, Db } from 'mongodb'
 import { addDays } from 'date-fns'
 
@@ -50,4 +50,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.setHeader('Allow', ['GET'])
     res.status(405).end(`Method ${req.method} Not Allowed`)
   }
-}
+} */

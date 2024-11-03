@@ -1,7 +1,7 @@
 // src/components/PlanCard.tsx
 
 interface PlanCardProps {
-  title: string;
+  title: React.ReactNode;
   items: string[];
   price: string;
 }

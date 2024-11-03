@@ -9,22 +9,22 @@ const Plans = () => {
             <SectionTitle title="NUESTROS PLANES" />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-1">
                 <PlanCard
-                    title="Plan 3x4"
-                    items={['Castillo 3x4', '1 Mesa (Tejo o Metegol a elección)', 'Duración: 3 horas']}
+                    title={<><u>COMBO</u> Castillo simple</>}
+                    items={['Castillo simple', '1 Mesa (Tejo o Metegol a elección)', 'Duración: 3 horas']}
                     price="$24000"
                 />
                 <PlanCard
-                    title="Plan 4x6"
+                    title={<><u>COMBO</u> Castillo con tobogán</>}
                     items={['Castillo 4x6', '1 Mesa (Tejo o Metegol a elección)', 'Duración: 3 horas']}
                     price="$28000"
                 />
                 <PlanCard
-                    title="Solo 3x4"
+                    title="Castillo simple"
                     items={['Castillo 3x4', 'Duración: 3 horas']}
                     price="$20000"
                 />
                 <PlanCard
-                    title="Solo 4x6"
+                    title="Castillo con tobogán"
                     items={['Castillo 4x6', 'Duración: 3 horas']}
                     price="$25000"
                 />
