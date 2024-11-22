@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { 
-  format, 
-  addMonths, 
-  startOfMonth, 
+import {
+  format,
+  addMonths,
+  startOfMonth,
   endOfMonth,
-  isSameMonth, 
+  isSameMonth,
   isSameDay,
   startOfWeek,
   endOfWeek,
@@ -114,21 +114,25 @@ const ReservedDates: React.FC = () => {
           {daysInMonth.map((date, index) => (
             <div
               key={index}
-              className={`w-10 h-10 flex items-center text-sm rounded-full ${
-                !isSameMonth(date, currentMonth)
+              className={`w-10 h-10 flex items-center text-sm rounded-full ${!isSameMonth(date, currentMonth)
                   ? 'text-gray-300'
                   : isDateReserved(date)
                     ? 'bg-orange-500 text-white'
                     : 'bg-pastel-blue-100 text-pastel-blue-600'
-              }`}
+                }`}
             >
               {format(date, 'd')}
             </div>
           ))}
         </div>
-        <div className="text-xs text-gray-500 flex items-center justify-center mt-4">
+        {/*         <div className="text-xs text-gray-500 flex items-center justify-center mt-4">
           <div className="w-3 h-3 bg-orange-500 text-white rounded-full"></div>
           <span className="mr-3">Reservado</span>
+        </div> */}
+        <div className="text-xs text-gray-500 flex items-center justify-center mt-4">
+          <div className="w-3 h-3 bg-orange-500 text-white rounded-full flex items-center justify-center">
+            <span className="ml-3">Reservado</span>
+          </div>
         </div>
       </div>
     </section>
