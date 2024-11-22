@@ -127,7 +127,7 @@ const ReservedDates: React.FC = () => {
           ))}
         </div>
         <div className="text-xs text-gray-500 flex items-center justify-center mt-4">
-          <div className="w-3 h-3 bg-orange-500 text-white mr-1 rounded-full"></div>
+          <div className="w-3 h-3 bg-orange-500 text-white rounded-full"></div>
           <span className="mr-3">Reservado</span>
         </div>
       </div>

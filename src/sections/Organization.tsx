@@ -4,7 +4,7 @@ import PaymentMethods from '../components/PaymentMethods';
 
 export default function Organization() {
   return (
-    <section id="organización" className="mb-16 flex flex-col md:flex-row gap-8">
+    <section id="organizacion" className="mb-16 flex flex-col md:flex-row gap-8">
       {/* Sección de organización */}
       <div className="w-full md:w-1/2 bg-[#fff] border-2 border-[#f25e02] shadow-lg p-8  rounded-lg shadow-md">
         <SectionTitle title="¿COMO NOS ORGANIZAMOS?" />
